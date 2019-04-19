@@ -24,4 +24,3 @@ RSpec.configure do |config|
     silence_output(example)
   end
 end
-
