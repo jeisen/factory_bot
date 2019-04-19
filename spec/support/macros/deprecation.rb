@@ -13,6 +13,8 @@ RSpec.configure do |config|
   config.include SilenceDeprecation
 
   config.around :example, silence_deprecation: true do |example|
-    silence_deprecation(example)
+    with_silenced_output do
+      silence_deprecation(example)
+    end
   end
 end
