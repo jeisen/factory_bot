@@ -22,8 +22,19 @@ module FactoryBot
       private
 
       def build
+        ensure_factory_is_not_a_declaration!
+
         factory_name = @overrides[:factory] || name
         [Attribute::Association.new(name, factory_name, [@traits, @overrides.except(:factory)].flatten)]
+      end
+
+      def ensure_factory_is_not_a_declaration!
+        if Declaration === @overrides[:factory]
+          raise ArgumentError.new(<<~MSG)
+            Association '#{name}' received an invalid factory argument.
+            Did you mean? 'factory: :#{@overrides[:factory].name}'
+          MSG
+        end
       end
     end
   end
